@@ -1,0 +1,40 @@
+<!-- templates/game_over.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="emperor-portrait">
+    <h1>👑 Конец правления 👑</h1>
+    <div class="subtitle">Итоги эпохи Александра I</div>
+</div>
+
+<div class="year-display">Год: {{ year }}</div>
+
+<div class="game-over-message">
+    {{ result }}
+</div>
+
+<div class="stats-container">
+    {% for stat_name, stat_value in stats.items() %}
+    <div class="stat" data-faction="{{ stat_name }}">
+        <div class="stat-name">{{ stat_name }}</div>
+        <div class="stat-bar">
+            <div class="stat-progress" style="width: {{ stat_value }}%"></div>
+        </div>
+        <div class="stat-value">{{ stat_value }}%</div>
+    </div>
+    {% endfor %}
+</div>
+
+<div style="margin-top: 30px;">
+    <h2 style="text-align: center; color: #2c3e50; margin-bottom: 20px;">История решений:</h2>
+    {% for item in history %}
+    <div class="history-item">
+        <strong>{{ item.year }}:</strong> {{ item.event }} - Решение: {{ item.decision }}
+    </div>
+    {% endfor %}
+</div>
+
+<form action="{{ url_for('index') }}" method="get">
+    <button type="submit" class="restart-btn">Начать новую игру</button>
+</form>
+{% endblock %}

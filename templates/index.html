@@ -1,0 +1,46 @@
+<!-- templates/index.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="emperor-portrait">
+    <h1>👑 Александр I 👑</h1>
+    <div class="subtitle">Император Всероссийский (1801-1825)</div>
+</div>
+
+<div class="year-display">Год: {{ year }}</div>
+
+<div class="stats-container">
+    {% for stat_name, stat_value in stats.items() %}
+    <div class="stat" data-faction="{{ stat_name }}">
+        <div class="stat-name">{{ stat_name }}</div>
+        <div class="stat-bar">
+            <div class="stat-progress" style="width: {{ stat_value }}%"></div>
+        </div>
+        <div class="stat-value">{{ stat_value }}%</div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="card">
+    <div class="card-title">Начало правления</div>
+    <div class="card-text">
+        Вы - Александр I Павлович, император Всероссийский. Ваше правление ознаменовано важными реформами и сложной внешней политикой. 
+        Вам предстоит принимать решения, которые повлияют на судьбу России. Балансируйте между интересами четырех ключевых фракций:
+        <strong>Армия</strong>, <strong>Дворяне</strong>, <strong>Крестьяне</strong> и <strong>Финансы</strong>. 
+        Старайтесь поддерживать баланс - если любая фракция достигнет 0% или 100%, ваше правление закончится!
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <form action="{{ url_for('next_card') }}" method="post">
+            <div style="margin-bottom: 20px;">
+                <label for="email" style="display: block; margin-bottom: 10px; color: #2c3e50; font-weight: bold;">Введите вашу почту:</label>
+                <input type="email" id="email" name="email" required 
+                       style="width: 100%; max-width: 400px; padding: 12px; font-size: 1.1em; 
+                              border: 2px solid #3498db; border-radius: 10px; 
+                              text-align: center;" 
+                       placeholder="example@mail.com">
+            </div>
+            <button type="submit" class="decision-btn yes-btn" style="width: 200px;">Начать правление</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
