@@ -1,0 +1,17 @@
+# docker-compose.prod.yml - Production configuration
+version: '3.8'
+
+services:
+  alexander_game:
+    build: .
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    environment:
+      - FLASK_ENV=production
+      - DATA_DIR=/app/data
+      - SECRET_KEY=${SECRET_KEY:-change_this_secret_key_in_production}
+    volumes:
+      # Только для сохранения Excel файла с результатами
+      - ./data:/app/data
+    command: python app.py

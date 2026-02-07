@@ -7,10 +7,13 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, Alignment
 
 app = Flask(__name__)
-app.secret_key = 'alexander_i_secret_key'
+app.secret_key = os.environ.get('SECRET_KEY', 'alexander_i_secret_key_change_in_production')
 
-# Путь к файлу Excel
-EXCEL_FILE = 'game_results.xlsx'
+# Путь к файлу Excel (в продакшне сохраняем в папку data)
+DATA_DIR = os.environ.get('DATA_DIR', '.')
+if not os.path.exists(DATA_DIR):
+    os.makedirs(DATA_DIR)
+EXCEL_FILE = os.path.join(DATA_DIR, 'game_results.xlsx')
 
 # Инициализация Excel файла, если его нет
 def init_excel_file():
@@ -358,4 +361,5 @@ def export_data():
                     mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    debug_mode = os.environ.get('FLASK_ENV') == 'development'
+    app.run(host='0.0.0.0', port=5000, debug=debug_mode)
